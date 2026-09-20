@@ -43,6 +43,7 @@ private slots:
     void on_actOpen_triggered();//打开文件
 
     void on_actFont_triggered();//字体选择对话框
+    void on_actAbout_triggered();
 
     void on_txtEdit_selectionChanged();  //当前选择的文字发生变化,更新粗体、斜体、下划线3个action的checked状态
     void on_txtEdit_copyAvailable(bool b);//有文字可copy时更新cut,copy的Enable状态

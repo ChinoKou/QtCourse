@@ -39,6 +39,7 @@ public:
     QAction *actFont;
     QAction *actNew;
     QAction *actToolbarLab;
+    QAction *actAbout;
     QWidget *centralWidget;
     QTextEdit *txtEdit;
     QMenuBar *menuBar;
@@ -119,6 +120,8 @@ public:
         actToolbarLab->setCheckable(true);
         actToolbarLab->setChecked(true);
         actToolbarLab->setMenuRole(QAction::TextHeuristicRole);
+        actAbout = new QAction(QWMainWind);
+        actAbout->setObjectName(QStringLiteral("actAbout"));
         centralWidget = new QWidget(QWMainWind);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         txtEdit = new QTextEdit(centralWidget);
@@ -162,6 +165,8 @@ public:
         menu_3->addAction(actFontItalic);
         menu_3->addAction(actFontUnder);
         menu_3->addSeparator();
+        menu_3->addAction(actFont);
+        menu_3->addSeparator();
         menu_3->addAction(actToolbarLab);
         mainToolBar->addAction(actNew);
         mainToolBar->addAction(actOpen);
@@ -175,6 +180,7 @@ public:
         mainToolBar->addAction(actFontBold);
         mainToolBar->addAction(actFontUnder);
         mainToolBar->addSeparator();
+        mainToolBar->addAction(actAbout);
 
         retranslateUi(QWMainWind);
         QObject::connect(actClose, SIGNAL(triggered()), QWMainWind, SLOT(close()));
@@ -246,6 +252,7 @@ public:
         actNew->setShortcut(QApplication::translate("QWMainWind", "Ctrl+N", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
         actToolbarLab->setText(QApplication::translate("QWMainWind", "\346\230\276\347\244\272\345\267\245\345\205\267\346\240\217\346\226\207\345\255\227\346\240\207\347\255\276", Q_NULLPTR));
+        actAbout->setText(QApplication::translate("QWMainWind", "\345\205\263\344\272\216", Q_NULLPTR));
         menu->setTitle(QApplication::translate("QWMainWind", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_2->setTitle(QApplication::translate("QWMainWind", "\347\274\226\350\276\221", Q_NULLPTR));
         menu_3->setTitle(QApplication::translate("QWMainWind", "\346\240\274\345\274\217", Q_NULLPTR));

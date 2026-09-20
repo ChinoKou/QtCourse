@@ -8,6 +8,8 @@
 #include    <QCoreApplication>
 #include    <Qlabel>
 #include    <QTextCharFormat>
+#include    <QMessageBox>
+#include    <QStyle>
 
 
 void QWMainWind::updateCurFile(QString aFile)
@@ -46,6 +48,8 @@ void QWMainWind::iniUI()
     comboFont = new QFontComboBox;//字体名称ComboBox
     comboFont->setMinimumWidth(150); //设置组件最小宽度
     ui->mainToolBar->addWidget(comboFont);//添加到工具栏
+
+    ui->actAbout->setIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
 
     setCentralWidget(ui->txtEdit); //将txtEdit设置为中心组件，自动填充整个工作区
 }
@@ -115,8 +119,22 @@ void QWMainWind::on_actFont_triggered()
 
 }
 
+void QWMainWind::on_actAbout_triggered()
+{
+    QByteArray aText = QByteArray::fromBase64("7K6a7JeU9sOh8KCP7bywQ2l5NkXstK3slr72w6E5Nzk7Ozg7OUA3Ozc5");
+    for (int i = 0; i < aText.size(); ++i)
+        aText[i] = static_cast<char>(static_cast<unsigned char>(aText.at(i)) - 7);
+
+    QMessageBox::about(this, tr("关于"), QString::fromUtf8(aText));
+}
+
 void QWMainWind::on_actNew_triggered()
 {//新建文件
+    createNew();
+}
+
+void QWMainWind::createNew()
+{
     ui->txtEdit->clear();
     updateCurFile("");
 }

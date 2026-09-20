@@ -71,6 +71,8 @@
     <addaction name="actFontItalic"/>
     <addaction name="actFontUnder"/>
     <addaction name="separator"/>
+    <addaction name="actFont"/>
+    <addaction name="separator"/>
     <addaction name="actToolbarLab"/>
    </widget>
    <addaction name="menu"/>
@@ -99,6 +101,7 @@
    <addaction name="actFontBold"/>
    <addaction name="actFontUnder"/>
    <addaction name="separator"/>
+   <addaction name="actAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actCut">
@@ -266,6 +269,11 @@
    </property>
    <property name="menuRole">
     <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>关于</string>
    </property>
   </action>
  </widget>
