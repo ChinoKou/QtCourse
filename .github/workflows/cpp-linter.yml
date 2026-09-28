@@ -24,7 +24,7 @@ jobs:
           style: file
           tidy-checks: '-*'
           auto-fix: 'true'
-          files-changed-only: 'true'
+          files-changed-only: 'false'
           lines-changed-only: 'false'
           version: '21'
           step-summary: 'true'
