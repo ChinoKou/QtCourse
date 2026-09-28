@@ -1,0 +1,33 @@
+name: C/C++ Linter
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  cpp-linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          style: file
+          tidy-checks: '-*'
+          auto-fix: 'true'
+          files-changed-only: 'true'
+          lines-changed-only: 'false'
+          version: '21'
+          step-summary: 'true'
+      - name: Fail on auto-fix push failure
+        if: steps.linter.outputs.push-fix-failed > 0
+        run: exit 1
