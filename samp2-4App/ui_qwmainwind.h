@@ -9,8 +9,8 @@
 #ifndef UI_QWMAINWIND_H
 #define UI_QWMAINWIND_H
 
-#include <QtCore/QVariant>
 #include <QAction>
+#include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
@@ -24,33 +24,31 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_QWMainWind
-{
+class Ui_QWMainWind {
 public:
-    QAction *actCut;
-    QAction *actCopy;
-    QAction *actPaste;
-    QAction *actFontBold;
-    QAction *actFontItalic;
-    QAction *actFontUnder;
-    QAction *actClose;
-    QAction *actOpen;
-    QAction *actClear;
-    QAction *actFont;
-    QAction *actNew;
-    QAction *actToolbarLab;
-    QAction *actAbout;
-    QWidget *centralWidget;
-    QTextEdit *txtEdit;
-    QMenuBar *menuBar;
-    QMenu *menu;
-    QMenu *menu_2;
-    QMenu *menu_3;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
+    QAction* actCut;
+    QAction* actCopy;
+    QAction* actPaste;
+    QAction* actFontBold;
+    QAction* actFontItalic;
+    QAction* actFontUnder;
+    QAction* actClose;
+    QAction* actOpen;
+    QAction* actClear;
+    QAction* actFont;
+    QAction* actNew;
+    QAction* actToolbarLab;
+    QAction* actAbout;
+    QWidget* centralWidget;
+    QTextEdit* txtEdit;
+    QMenuBar* menuBar;
+    QMenu* menu;
+    QMenu* menu_2;
+    QMenu* menu_3;
+    QToolBar* mainToolBar;
+    QStatusBar* statusBar;
 
-    void setupUi(QMainWindow *QWMainWind)
-    {
+    void setupUi(QMainWindow* QWMainWind) {
         if (QWMainWind->objectName().isEmpty())
             QWMainWind->setObjectName(QStringLiteral("QWMainWind"));
         QWMainWind->resize(543, 258);
@@ -190,80 +188,78 @@ public:
         QObject::connect(actPaste, SIGNAL(triggered()), txtEdit, SLOT(paste()));
 
         QMetaObject::connectSlotsByName(QWMainWind);
-    } // setupUi
+    }  // setupUi
 
-    void retranslateUi(QMainWindow *QWMainWind)
-    {
+    void retranslateUi(QMainWindow* QWMainWind) {
         QWMainWind->setWindowTitle(QApplication::translate("QWMainWind", "QWMainWind", Q_NULLPTR));
         actCut->setText(QApplication::translate("QWMainWind", "\345\211\252\345\210\207", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actCut->setToolTip(QApplication::translate("QWMainWind", "\345\211\252\345\210\207", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
 #ifndef QT_NO_SHORTCUT
         actCut->setShortcut(QApplication::translate("QWMainWind", "Ctrl+X", Q_NULLPTR));
-#endif // QT_NO_SHORTCUT
+#endif  // QT_NO_SHORTCUT
         actCopy->setText(QApplication::translate("QWMainWind", "\345\244\215\345\210\266", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actCopy->setToolTip(QApplication::translate("QWMainWind", "\345\244\215\345\210\266", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
 #ifndef QT_NO_SHORTCUT
         actCopy->setShortcut(QApplication::translate("QWMainWind", "Ctrl+C", Q_NULLPTR));
-#endif // QT_NO_SHORTCUT
+#endif  // QT_NO_SHORTCUT
         actPaste->setText(QApplication::translate("QWMainWind", "\347\262\230\350\264\264", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actPaste->setToolTip(QApplication::translate("QWMainWind", "\347\262\230\350\264\264", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
 #ifndef QT_NO_SHORTCUT
         actPaste->setShortcut(QApplication::translate("QWMainWind", "Ctrl+V", Q_NULLPTR));
-#endif // QT_NO_SHORTCUT
+#endif  // QT_NO_SHORTCUT
         actFontBold->setText(QApplication::translate("QWMainWind", "\347\262\227\344\275\223", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actFontBold->setToolTip(QApplication::translate("QWMainWind", "\347\262\227\344\275\223", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actFontItalic->setText(QApplication::translate("QWMainWind", "\346\226\234\344\275\223", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actFontItalic->setToolTip(QApplication::translate("QWMainWind", "\346\226\234\344\275\223", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actFontUnder->setText(QApplication::translate("QWMainWind", "\344\270\213\345\210\222\347\272\277", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actFontUnder->setToolTip(QApplication::translate("QWMainWind", "\344\270\213\345\210\222\347\272\277", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actClose->setText(QApplication::translate("QWMainWind", "\351\200\200\345\207\272", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actClose->setToolTip(QApplication::translate("QWMainWind", "\351\200\200\345\207\272", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actOpen->setText(QApplication::translate("QWMainWind", "\346\211\223\345\274\200...", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actOpen->setToolTip(QApplication::translate("QWMainWind", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
 #ifndef QT_NO_SHORTCUT
         actOpen->setShortcut(QApplication::translate("QWMainWind", "Ctrl+O", Q_NULLPTR));
-#endif // QT_NO_SHORTCUT
+#endif  // QT_NO_SHORTCUT
         actClear->setText(QApplication::translate("QWMainWind", "\346\270\205\347\251\272", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actClear->setToolTip(QApplication::translate("QWMainWind", "\346\270\205\347\251\272\345\206\205\345\256\271", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actFont->setText(QApplication::translate("QWMainWind", "\345\255\227\344\275\223...", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actFont->setToolTip(QApplication::translate("QWMainWind", "\345\255\227\344\275\223\350\256\276\347\275\256", Q_NULLPTR));
-#endif // QT_NO_TOOLTIP
+#endif  // QT_NO_TOOLTIP
         actNew->setText(QApplication::translate("QWMainWind", "\346\226\260\345\273\272", Q_NULLPTR));
 #ifndef QT_NO_SHORTCUT
         actNew->setShortcut(QApplication::translate("QWMainWind", "Ctrl+N", Q_NULLPTR));
-#endif // QT_NO_SHORTCUT
+#endif  // QT_NO_SHORTCUT
         actToolbarLab->setText(QApplication::translate("QWMainWind", "\346\230\276\347\244\272\345\267\245\345\205\267\346\240\217\346\226\207\345\255\227\346\240\207\347\255\276", Q_NULLPTR));
         actAbout->setText(QApplication::translate("QWMainWind", "\345\205\263\344\272\216", Q_NULLPTR));
         menu->setTitle(QApplication::translate("QWMainWind", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_2->setTitle(QApplication::translate("QWMainWind", "\347\274\226\350\276\221", Q_NULLPTR));
         menu_3->setTitle(QApplication::translate("QWMainWind", "\346\240\274\345\274\217", Q_NULLPTR));
-    } // retranslateUi
-
+    }  // retranslateUi
 };
 
 namespace Ui {
-    class QWMainWind: public Ui_QWMainWind {};
-} // namespace Ui
+class QWMainWind : public Ui_QWMainWind {};
+}  // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif // UI_QWMAINWIND_H
+#endif  // UI_QWMAINWIND_H
