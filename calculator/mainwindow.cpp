@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <QFont>
+#include <QFontMetrics>
 #include <QGuiApplication>
 #include <QPushButton>
 #include <QStyleHints>
@@ -10,6 +11,10 @@
 #include "ui_mainwindow.h"
 
 namespace {
+
+constexpr int kDisplayWidthLoss = 30;
+constexpr int kMaxDisplayPointSize = 40;
+constexpr int kMinDisplayPointSize = 12;
 
 int countDigits(const QString& text) {
     int count = 0;
@@ -26,7 +31,8 @@ int countDigits(const QString& text) {
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    setFixedSize(330, 520);
+    resize(330, 520);
+    setMinimumSize(280, 470);
 
     connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &MainWindow::applyColorScheme);
     applyColorScheme(QGuiApplication::styleHints()->colorScheme());
@@ -69,6 +75,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event) {
+    QMainWindow::resizeEvent(event);
+    fitDisplayFont(ui->displayLabel->text());
 }
 
 void MainWindow::inputDigit(int digit) {
@@ -332,18 +343,20 @@ void MainWindow::refreshDisplay() {
 
 void MainWindow::setDisplayText(const QString& text) {
     ui->displayLabel->setText(text);
-    int pointSize = 40;
-    const int length = text.length();
-    if (length > 18) {
-        pointSize = 20;
+    fitDisplayFont(text);
+}
+
+void MainWindow::fitDisplayFont(const QString& text) {
+    const int availableWidth = width() - kDisplayWidthLoss;
+    int pointSize = kMaxDisplayPointSize;
+    QFont font(QStringLiteral("Segoe UI"), pointSize, QFont::DemiBold);
+    QFontMetricsF metrics(font);
+    while (pointSize > kMinDisplayPointSize && metrics.horizontalAdvance(text) > availableWidth) {
+        --pointSize;
+        font.setPointSize(pointSize);
+        metrics = QFontMetricsF(font);
     }
-    else if (length > 13) {
-        pointSize = 26;
-    }
-    else if (length > 10) {
-        pointSize = 32;
-    }
-    ui->displayLabel->setFont(QFont(QStringLiteral("Segoe UI"), pointSize, QFont::DemiBold));
+    ui->displayLabel->setFont(font);
 }
 
 void MainWindow::showError(const QString& message) {

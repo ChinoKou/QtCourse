@@ -5,6 +5,7 @@
 #include <QString>
 
 QT_BEGIN_NAMESPACE
+class QResizeEvent;
 namespace Ui {
 class MainWindow;
 }
@@ -16,6 +17,9 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
+
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     enum class Operator { None, Add, Subtract, Multiply, Divide };
@@ -37,6 +41,7 @@ private:
     double currentValue() const;
     void refreshDisplay();
     void setDisplayText(const QString& text);
+    void fitDisplayFont(const QString& text);
     void showError(const QString& message);
     void applyColorScheme(Qt::ColorScheme scheme);
     bool compute(Operator op, double left, double right, double& result);
