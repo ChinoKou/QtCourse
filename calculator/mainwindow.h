@@ -23,7 +23,11 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 private:
-    enum class Operator { None, Add, Subtract, Multiply, Divide };
+    enum class Operator { None,
+                          Add,
+                          Subtract,
+                          Multiply,
+                          Divide };
 
     void inputDigit(int digit);
     void inputDot();

@@ -28,7 +28,7 @@ int countDigits(const QString& text) {
     return count;
 }
 
-}
+}  // namespace
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -84,66 +84,66 @@ MainWindow::~MainWindow() {
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     switch (event->key()) {
-    case Qt::Key_0:
-    case Qt::Key_1:
-    case Qt::Key_2:
-    case Qt::Key_3:
-    case Qt::Key_4:
-    case Qt::Key_5:
-    case Qt::Key_6:
-    case Qt::Key_7:
-    case Qt::Key_8:
-    case Qt::Key_9:
-        inputDigit(event->key() - Qt::Key_0);
-        break;
-    case Qt::Key_Period:
-    case Qt::Key_Comma:
-        inputDot();
-        break;
-    case Qt::Key_Plus:
-        inputOperator(Operator::Add);
-        break;
-    case Qt::Key_Minus:
-        inputOperator(Operator::Subtract);
-        break;
-    case Qt::Key_Asterisk:
-        inputOperator(Operator::Multiply);
-        break;
-    case Qt::Key_Slash:
-        inputOperator(Operator::Divide);
-        break;
-    case Qt::Key_Equal:
-    case Qt::Key_Enter:
-    case Qt::Key_Return:
-        inputEquals();
-        break;
-    case Qt::Key_Backspace:
-        inputBackspace();
-        break;
-    case Qt::Key_Escape:
-        clearAll();
-        break;
-    case Qt::Key_Delete:
-        clearEntry();
-        break;
-    case Qt::Key_Percent:
-        inputPercent();
-        break;
-    case Qt::Key_F9:
-        inputToggleSign();
-        break;
-    case Qt::Key_R:
-        inputReciprocal();
-        break;
-    case Qt::Key_Q:
-        inputSquare();
-        break;
-    case Qt::Key_At:
-        inputSquareRoot();
-        break;
-    default:
-        QMainWindow::keyPressEvent(event);
-        return;
+        case Qt::Key_0:
+        case Qt::Key_1:
+        case Qt::Key_2:
+        case Qt::Key_3:
+        case Qt::Key_4:
+        case Qt::Key_5:
+        case Qt::Key_6:
+        case Qt::Key_7:
+        case Qt::Key_8:
+        case Qt::Key_9:
+            inputDigit(event->key() - Qt::Key_0);
+            break;
+        case Qt::Key_Period:
+        case Qt::Key_Comma:
+            inputDot();
+            break;
+        case Qt::Key_Plus:
+            inputOperator(Operator::Add);
+            break;
+        case Qt::Key_Minus:
+            inputOperator(Operator::Subtract);
+            break;
+        case Qt::Key_Asterisk:
+            inputOperator(Operator::Multiply);
+            break;
+        case Qt::Key_Slash:
+            inputOperator(Operator::Divide);
+            break;
+        case Qt::Key_Equal:
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            inputEquals();
+            break;
+        case Qt::Key_Backspace:
+            inputBackspace();
+            break;
+        case Qt::Key_Escape:
+            clearAll();
+            break;
+        case Qt::Key_Delete:
+            clearEntry();
+            break;
+        case Qt::Key_Percent:
+            inputPercent();
+            break;
+        case Qt::Key_F9:
+            inputToggleSign();
+            break;
+        case Qt::Key_R:
+            inputReciprocal();
+            break;
+        case Qt::Key_Q:
+            inputSquare();
+            break;
+        case Qt::Key_At:
+            inputSquareRoot();
+            break;
+        default:
+            QMainWindow::keyPressEvent(event);
+            return;
     }
     event->accept();
 }
@@ -456,24 +456,24 @@ void MainWindow::applyColorScheme(Qt::ColorScheme scheme) {
 
 bool MainWindow::compute(Operator op, double left, double right, double& result) {
     switch (op) {
-    case Operator::Add:
-        result = left + right;
-        break;
-    case Operator::Subtract:
-        result = left - right;
-        break;
-    case Operator::Multiply:
-        result = left * right;
-        break;
-    case Operator::Divide:
-        if (right == 0.0) {
-            showError(QStringLiteral("不能除以零"));
+        case Operator::Add:
+            result = left + right;
+            break;
+        case Operator::Subtract:
+            result = left - right;
+            break;
+        case Operator::Multiply:
+            result = left * right;
+            break;
+        case Operator::Divide:
+            if (right == 0.0) {
+                showError(QStringLiteral("不能除以零"));
+                return false;
+            }
+            result = left / right;
+            break;
+        case Operator::None:
             return false;
-        }
-        result = left / right;
-        break;
-    case Operator::None:
-        return false;
     }
     if (!std::isfinite(result)) {
         showError(QStringLiteral("溢出"));
@@ -484,16 +484,16 @@ bool MainWindow::compute(Operator op, double left, double right, double& result)
 
 QString MainWindow::operatorSymbol(Operator op) {
     switch (op) {
-    case Operator::Add:
-        return QStringLiteral("+");
-    case Operator::Subtract:
-        return QStringLiteral("−");
-    case Operator::Multiply:
-        return QStringLiteral("×");
-    case Operator::Divide:
-        return QStringLiteral("÷");
-    case Operator::None:
-        break;
+        case Operator::Add:
+            return QStringLiteral("+");
+        case Operator::Subtract:
+            return QStringLiteral("−");
+        case Operator::Multiply:
+            return QStringLiteral("×");
+        case Operator::Divide:
+            return QStringLiteral("÷");
+        case Operator::None:
+            break;
     }
     return QString();
 }
