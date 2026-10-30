@@ -37,7 +37,8 @@ private:
     double currentValue() const;
     void refreshDisplay();
     void setDisplayText(const QString& text);
-    double compute(Operator op, double left, double right);
+    void showError(const QString& message);
+    bool compute(Operator op, double left, double right, double& result);
 
     static QString operatorSymbol(Operator op);
     static QString groupText(const QString& text);
@@ -55,6 +56,7 @@ private:
     bool m_typing = false;
     bool m_operandReady = false;
     bool m_justEvaluated = false;
+    bool m_error = false;
 };
 
 #endif  // MAINWINDOW_H

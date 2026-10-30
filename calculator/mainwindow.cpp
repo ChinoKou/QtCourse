@@ -73,7 +73,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::inputDigit(int digit) {
-    if (m_justEvaluated) {
+    if (m_error || m_justEvaluated) {
         clearAll();
     }
     if (!m_typing) {
@@ -94,7 +94,7 @@ void MainWindow::inputDigit(int digit) {
 }
 
 void MainWindow::inputDot() {
-    if (m_justEvaluated) {
+    if (m_error || m_justEvaluated) {
         clearAll();
     }
     if (!m_typing) {
@@ -109,9 +109,16 @@ void MainWindow::inputDot() {
 }
 
 void MainWindow::inputOperator(Operator op) {
+    if (m_error) {
+        clearAll();
+    }
     const double value = currentValue();
     if (m_pendingOperator != Operator::None && m_operandReady) {
-        m_accumulator = compute(m_pendingOperator, m_accumulator, value);
+        double result = 0.0;
+        if (!compute(m_pendingOperator, m_accumulator, value, result)) {
+            return;
+        }
+        m_accumulator = result;
     }
     else if (m_pendingOperator == Operator::None) {
         m_accumulator = value;
@@ -128,17 +135,29 @@ void MainWindow::inputOperator(Operator op) {
 }
 
 void MainWindow::inputEquals() {
+    if (m_error) {
+        clearAll();
+        return;
+    }
     const double value = currentValue();
     if (m_pendingOperator != Operator::None) {
+        double result = 0.0;
+        if (!compute(m_pendingOperator, m_accumulator, value, result)) {
+            return;
+        }
         m_expression = formatValue(m_accumulator) + QLatin1Char(' ') + operatorSymbol(m_pendingOperator) + QLatin1Char(' ') + formatValue(value) + QStringLiteral(" =");
         m_lastOperator = m_pendingOperator;
         m_lastOperand = value;
-        m_currentValue = compute(m_pendingOperator, m_accumulator, value);
+        m_currentValue = result;
         m_pendingOperator = Operator::None;
     }
     else if (m_lastOperator != Operator::None) {
+        double result = 0.0;
+        if (!compute(m_lastOperator, value, m_lastOperand, result)) {
+            return;
+        }
         m_expression = formatValue(value) + QLatin1Char(' ') + operatorSymbol(m_lastOperator) + QLatin1Char(' ') + formatValue(m_lastOperand) + QStringLiteral(" =");
-        m_currentValue = compute(m_lastOperator, value, m_lastOperand);
+        m_currentValue = result;
     }
     else {
         m_currentValue = value;
@@ -153,10 +172,17 @@ void MainWindow::inputEquals() {
 }
 
 void MainWindow::inputPercent() {
+    if (m_error) {
+        clearAll();
+    }
     const double value = currentValue();
     double result = value / 100.0;
     if (m_pendingOperator == Operator::Add || m_pendingOperator == Operator::Subtract) {
         result = m_accumulator * value / 100.0;
+    }
+    if (!std::isfinite(result)) {
+        showError(QStringLiteral("溢出"));
+        return;
     }
     m_currentValue = result;
     m_typing = false;
@@ -166,6 +192,9 @@ void MainWindow::inputPercent() {
 }
 
 void MainWindow::inputToggleSign() {
+    if (m_error) {
+        clearAll();
+    }
     if (m_typing) {
         if (m_entry.startsWith(QLatin1Char('-'))) {
             m_entry.remove(0, 1);
@@ -187,6 +216,10 @@ void MainWindow::inputToggleSign() {
 }
 
 void MainWindow::inputBackspace() {
+    if (m_error) {
+        clearAll();
+        return;
+    }
     if (!m_typing) {
         return;
     }
@@ -200,21 +233,42 @@ void MainWindow::inputBackspace() {
 }
 
 void MainWindow::inputReciprocal() {
+    if (m_error) {
+        clearAll();
+    }
     const double value = currentValue();
+    if (value == 0.0) {
+        showError(QStringLiteral("不能除以零"));
+        return;
+    }
     applyUnaryResult(QStringLiteral("1/(") + formatValue(value) + QLatin1Char(')'), 1.0 / value);
 }
 
 void MainWindow::inputSquare() {
+    if (m_error) {
+        clearAll();
+    }
     const double value = currentValue();
     applyUnaryResult(QStringLiteral("sqr(") + formatValue(value) + QLatin1Char(')'), value * value);
 }
 
 void MainWindow::inputSquareRoot() {
+    if (m_error) {
+        clearAll();
+    }
     const double value = currentValue();
+    if (value < 0.0) {
+        showError(QStringLiteral("无效输入"));
+        return;
+    }
     applyUnaryResult(QStringLiteral("√(") + formatValue(value) + QLatin1Char(')'), std::sqrt(value));
 }
 
 void MainWindow::applyUnaryResult(const QString& expression, double result) {
+    if (!std::isfinite(result)) {
+        showError(QStringLiteral("溢出"));
+        return;
+    }
     m_currentValue = result;
     m_typing = false;
     m_operandReady = true;
@@ -237,10 +291,15 @@ void MainWindow::clearAll() {
     m_typing = false;
     m_operandReady = false;
     m_justEvaluated = false;
+    m_error = false;
     refreshDisplay();
 }
 
 void MainWindow::clearEntry() {
+    if (m_error) {
+        clearAll();
+        return;
+    }
     m_entry.clear();
     m_currentValue = 0.0;
     m_typing = false;
@@ -260,6 +319,9 @@ double MainWindow::currentValue() const {
 }
 
 void MainWindow::refreshDisplay() {
+    if (m_error) {
+        return;
+    }
     if (m_typing) {
         setDisplayText(groupText(m_entry));
     }
@@ -285,20 +347,39 @@ void MainWindow::setDisplayText(const QString& text) {
     ui->displayLabel->setFont(QFont(QStringLiteral("Segoe UI"), pointSize, QFont::DemiBold));
 }
 
-double MainWindow::compute(Operator op, double left, double right) {
+void MainWindow::showError(const QString& message) {
+    clearAll();
+    m_error = true;
+    ui->expressionLabel->clear();
+    setDisplayText(message);
+}
+
+bool MainWindow::compute(Operator op, double left, double right, double& result) {
     switch (op) {
     case Operator::Add:
-        return left + right;
-    case Operator::Subtract:
-        return left - right;
-    case Operator::Multiply:
-        return left * right;
-    case Operator::Divide:
-        return left / right;
-    case Operator::None:
+        result = left + right;
         break;
+    case Operator::Subtract:
+        result = left - right;
+        break;
+    case Operator::Multiply:
+        result = left * right;
+        break;
+    case Operator::Divide:
+        if (right == 0.0) {
+            showError(QStringLiteral("不能除以零"));
+            return false;
+        }
+        result = left / right;
+        break;
+    case Operator::None:
+        return false;
     }
-    return right;
+    if (!std::isfinite(result)) {
+        showError(QStringLiteral("溢出"));
+        return false;
+    }
+    return true;
 }
 
 QString MainWindow::operatorSymbol(Operator op) {
@@ -336,6 +417,9 @@ QString MainWindow::groupText(const QString& text) {
 }
 
 QString MainWindow::formatValue(double value) {
+    if (!std::isfinite(value)) {
+        return QStringLiteral("溢出");
+    }
     if (value == 0.0) {
         return QStringLiteral("0");
     }
