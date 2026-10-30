@@ -5,6 +5,7 @@
 #include <QString>
 
 QT_BEGIN_NAMESPACE
+class QKeyEvent;
 class QResizeEvent;
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,7 @@ public:
     ~MainWindow() override;
 
 protected:
+    void keyPressEvent(QKeyEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
 
 private:
