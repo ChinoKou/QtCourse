@@ -38,6 +38,7 @@ private:
     void refreshDisplay();
     void setDisplayText(const QString& text);
     void showError(const QString& message);
+    void applyColorScheme(Qt::ColorScheme scheme);
     bool compute(Operator op, double left, double right, double& result);
 
     static QString operatorSymbol(Operator op);

@@ -15,7 +15,9 @@ qt_add_executable(calculator
 
 qt_add_resources(calculator "calculator_style"
     PREFIX "/"
-    FILES calculator.qss
+    FILES
+        calculator-dark.qss
+        calculator-light.qss
 )
 
 target_link_libraries(calculator

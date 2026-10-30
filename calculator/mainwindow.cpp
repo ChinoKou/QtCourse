@@ -2,7 +2,9 @@
 
 #include <QFile>
 #include <QFont>
+#include <QGuiApplication>
 #include <QPushButton>
+#include <QStyleHints>
 #include <cmath>
 
 #include "ui_mainwindow.h"
@@ -26,11 +28,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     setFixedSize(330, 520);
 
-    QFile styleFile(QStringLiteral(":/calculator.qss"));
-    if (!styleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qFatal("样式表文件无法打开");
-    }
-    setStyleSheet(QString::fromUtf8(styleFile.readAll()));
+    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &MainWindow::applyColorScheme);
+    applyColorScheme(QGuiApplication::styleHints()->colorScheme());
 
     const auto buttons = findChildren<QPushButton*>();
     for (QPushButton* button : buttons) {
@@ -352,6 +351,15 @@ void MainWindow::showError(const QString& message) {
     m_error = true;
     ui->expressionLabel->clear();
     setDisplayText(message);
+}
+
+void MainWindow::applyColorScheme(Qt::ColorScheme scheme) {
+    const QString path = scheme == Qt::ColorScheme::Dark ? QStringLiteral(":/calculator-dark.qss") : QStringLiteral(":/calculator-light.qss");
+    QFile styleFile(path);
+    if (!styleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qFatal("样式表文件无法打开");
+    }
+    setStyleSheet(QString::fromUtf8(styleFile.readAll()));
 }
 
 bool MainWindow::compute(Operator op, double left, double right, double& result) {
