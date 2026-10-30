@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include <QEvent>
 #include <QFile>
 #include <QFont>
 #include <QFontMetrics>
@@ -13,7 +14,7 @@
 
 namespace {
 
-constexpr int kDisplayWidthLoss = 30;
+constexpr int kDisplayInset = 16;
 constexpr int kMaxDisplayPointSize = 40;
 constexpr int kMinDisplayPointSize = 12;
 
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     resize(330, 520);
     setMinimumSize(280, 470);
     setFocusPolicy(Qt::StrongFocus);
+
+    ui->displayLabel->installEventFilter(this);
 
     connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &MainWindow::applyColorScheme);
     applyColorScheme(QGuiApplication::styleHints()->colorScheme());
@@ -145,9 +148,11 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     event->accept();
 }
 
-void MainWindow::resizeEvent(QResizeEvent* event) {
-    QMainWindow::resizeEvent(event);
-    fitDisplayFont(ui->displayLabel->text());
+bool MainWindow::eventFilter(QObject* watched, QEvent* event) {
+    if (watched == ui->displayLabel && event->type() == QEvent::Resize) {
+        fitDisplayFont(ui->displayLabel->text());
+    }
+    return QMainWindow::eventFilter(watched, event);
 }
 
 void MainWindow::inputDigit(int digit) {
@@ -415,16 +420,22 @@ void MainWindow::setDisplayText(const QString& text) {
 }
 
 void MainWindow::fitDisplayFont(const QString& text) {
-    const int availableWidth = width() - kDisplayWidthLoss;
+    const int availableWidth = ui->displayLabel->width() - kDisplayInset;
+    const int availableHeight = ui->displayLabel->height() - kDisplayInset;
+    if (availableWidth <= 0 || availableHeight <= 0) {
+        return;
+    }
     int pointSize = kMaxDisplayPointSize;
     QFont font(QStringLiteral("Segoe UI"), pointSize, QFont::DemiBold);
     QFontMetricsF metrics(font);
-    while (pointSize > kMinDisplayPointSize && metrics.horizontalAdvance(text) > availableWidth) {
+    while (pointSize > kMinDisplayPointSize && (metrics.horizontalAdvance(text) > availableWidth || metrics.height() > availableHeight)) {
         --pointSize;
         font.setPointSize(pointSize);
         metrics = QFontMetricsF(font);
     }
-    ui->displayLabel->setFont(font);
+    if (font != ui->displayLabel->font()) {
+        ui->displayLabel->setFont(font);
+    }
 }
 
 void MainWindow::showError(const QString& message) {

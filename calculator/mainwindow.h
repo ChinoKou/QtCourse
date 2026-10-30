@@ -6,7 +6,6 @@
 
 QT_BEGIN_NAMESPACE
 class QKeyEvent;
-class QResizeEvent;
 namespace Ui {
 class MainWindow;
 }
@@ -20,8 +19,8 @@ public:
     ~MainWindow() override;
 
 protected:
+    bool eventFilter(QObject* watched, QEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
-    void resizeEvent(QResizeEvent* event) override;
 
 private:
     enum class Operator { None, Add, Subtract, Multiply, Divide };
