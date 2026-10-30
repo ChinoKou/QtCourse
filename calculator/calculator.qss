@@ -1,0 +1,102 @@
+QMainWindow,
+QWidget#centralwidget,
+QWidget#displayPanel {
+    background-color: #202020;
+}
+
+QLabel#expressionLabel {
+    color: #a6a6a6;
+    font-family: "Segoe UI";
+    font-size: 14px;
+    padding-right: 6px;
+}
+
+QLabel#displayLabel {
+    color: #ffffff;
+    padding-right: 6px;
+}
+
+QPushButton {
+    border: none;
+    border-radius: 6px;
+    background-color: #3b3b3b;
+    color: #ffffff;
+    font-family: "Segoe UI";
+    font-size: 20px;
+}
+
+QPushButton:hover {
+    background-color: #464646;
+}
+
+QPushButton:pressed {
+    background-color: #2e2e2e;
+}
+
+QPushButton#btnPercent,
+QPushButton#btnClearEntry,
+QPushButton#btnClear,
+QPushButton#btnBackspace,
+QPushButton#btnReciprocal,
+QPushButton#btnSquare,
+QPushButton#btnSqrt {
+    background-color: #323232;
+    font-size: 16px;
+}
+
+QPushButton#btnPercent:hover,
+QPushButton#btnClearEntry:hover,
+QPushButton#btnClear:hover,
+QPushButton#btnBackspace:hover,
+QPushButton#btnReciprocal:hover,
+QPushButton#btnSquare:hover,
+QPushButton#btnSqrt:hover {
+    background-color: #3d3d3d;
+}
+
+QPushButton#btnPercent:pressed,
+QPushButton#btnClearEntry:pressed,
+QPushButton#btnClear:pressed,
+QPushButton#btnBackspace:pressed,
+QPushButton#btnReciprocal:pressed,
+QPushButton#btnSquare:pressed,
+QPushButton#btnSqrt:pressed {
+    background-color: #282828;
+}
+
+QPushButton#btnDivide,
+QPushButton#btnMultiply,
+QPushButton#btnMinus,
+QPushButton#btnPlus {
+    background-color: #323232;
+    font-size: 22px;
+}
+
+QPushButton#btnDivide:hover,
+QPushButton#btnMultiply:hover,
+QPushButton#btnMinus:hover,
+QPushButton#btnPlus:hover {
+    background-color: #3d3d3d;
+}
+
+QPushButton#btnDivide:pressed,
+QPushButton#btnMultiply:pressed,
+QPushButton#btnMinus:pressed,
+QPushButton#btnPlus:pressed {
+    background-color: #282828;
+}
+
+QPushButton#btnEquals {
+    background-color: #4cc2ff;
+    color: #10202b;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+QPushButton#btnEquals:hover {
+    background-color: #60caff;
+}
+
+QPushButton#btnEquals:pressed {
+    background-color: #38b0ec;
+}
