@@ -251,7 +251,7 @@ void MainWindow::applyColorScheme(Qt::ColorScheme scheme) {
     if (!styleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qFatal("样式表文件无法打开");
     }
-    qApp->setStyleSheet(QString::fromUtf8(styleFile.readAll()));
+    setStyleSheet(QString::fromUtf8(styleFile.readAll()));
     ui->textEdit->setDarkMode(dark);
     ui->actDarkMode->blockSignals(true);
     ui->actDarkMode->setChecked(dark);
