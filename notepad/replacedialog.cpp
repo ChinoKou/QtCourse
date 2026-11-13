@@ -40,15 +40,27 @@ bool ReplaceDialog::findMatch() {
     if (ui->checkCaseSensitive->isChecked()) {
         flags |= QTextDocument::FindCaseSensitively;
     }
-    if (ui->radioUp->isChecked()) {
+    const bool backward = ui->radioUp->isChecked();
+    if (backward) {
         flags |= QTextDocument::FindBackward;
     }
-    return m_editor->find(target, flags);
+    if (m_editor->find(target, flags)) {
+        return true;
+    }
+    const QTextCursor savedCursor = m_editor->textCursor();
+    m_editor->moveCursor(backward ? QTextCursor::End : QTextCursor::Start);
+    if (m_editor->find(target, flags)) {
+        return true;
+    }
+    m_editor->setTextCursor(savedCursor);
+    return false;
 }
 
 void ReplaceDialog::onFindNext() {
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral("查找"), QStringLiteral("请输入要查找的内容。"));
+        ui->lineEditTarget->setFocus();
         return;
     }
     if (!findMatch()) {
@@ -63,6 +75,8 @@ void ReplaceDialog::onReplace() {
     }
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral("替换"), QStringLiteral("请输入要查找的内容。"));
+        ui->lineEditTarget->setFocus();
         return;
     }
     const QString replacement = ui->lineEditReplace->text();
@@ -70,8 +84,12 @@ void ReplaceDialog::onReplace() {
     QTextCursor cursor = m_editor->textCursor();
     if (cursor.hasSelection() && cursor.selectedText().compare(target, cs) == 0) {
         cursor.insertText(replacement);
+        m_editor->setTextCursor(cursor);
     }
-    onFindNext();
+    if (!findMatch()) {
+        QMessageBox::information(this, QStringLiteral("替换"),
+                                 QStringLiteral("找不到 \"%1\"").arg(target));
+    }
 }
 
 void ReplaceDialog::onReplaceAll() {
@@ -80,6 +98,8 @@ void ReplaceDialog::onReplaceAll() {
     }
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral("替换"), QStringLiteral("请输入要查找的内容。"));
+        ui->lineEditTarget->setFocus();
         return;
     }
     const QString replacement = ui->lineEditReplace->text();
@@ -87,13 +107,20 @@ void ReplaceDialog::onReplaceAll() {
     if (ui->checkCaseSensitive->isChecked()) {
         flags |= QTextDocument::FindCaseSensitively;
     }
+    const QTextCursor savedCursor = m_editor->textCursor();
+    QTextCursor undoGroup = m_editor->textCursor();
+    undoGroup.beginEditBlock();
     m_editor->moveCursor(QTextCursor::Start);
     int count = 0;
     while (m_editor->find(target, flags)) {
-        m_editor->textCursor().insertText(replacement);
+        QTextCursor match = m_editor->textCursor();
+        match.insertText(replacement);
+        m_editor->setTextCursor(match);
         ++count;
     }
+    undoGroup.endEditBlock();
     if (count == 0) {
+        m_editor->setTextCursor(savedCursor);
         QMessageBox::information(this, QStringLiteral("替换"),
                                  QStringLiteral("找不到 \"%1\"").arg(target));
     }

@@ -2,6 +2,7 @@
 
 #include <QMessageBox>
 #include <QPlainTextEdit>
+#include <QTextCursor>
 #include <QTextDocument>
 
 #include "ui_searchdialog.h"
@@ -31,16 +32,25 @@ void SearchDialog::onFindNext() {
     }
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral("查找"), QStringLiteral("请输入要查找的内容。"));
+        ui->lineEditTarget->setFocus();
         return;
     }
     QTextDocument::FindFlags flags;
     if (ui->checkCaseSensitive->isChecked()) {
         flags |= QTextDocument::FindCaseSensitively;
     }
-    if (ui->radioUp->isChecked()) {
+    const bool backward = ui->radioUp->isChecked();
+    if (backward) {
         flags |= QTextDocument::FindBackward;
     }
+    if (m_editor->find(target, flags)) {
+        return;
+    }
+    const QTextCursor savedCursor = m_editor->textCursor();
+    m_editor->moveCursor(backward ? QTextCursor::End : QTextCursor::Start);
     if (!m_editor->find(target, flags)) {
+        m_editor->setTextCursor(savedCursor);
         QMessageBox::information(this, QStringLiteral("查找"),
                                  QStringLiteral("找不到 \"%1\"").arg(target));
     }
