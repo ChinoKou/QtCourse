@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QColor>
 #include <QMainWindow>
 #include <QString>
 
@@ -35,6 +36,14 @@ private slots:
     void onPaste();
     void onSelectAll();
     void updatePasteState();
+    void onFont();
+    void onFontColor();
+    void onFontBackColor();
+    void onEditorBackColor();
+    void onToggleWrap(bool checked);
+    void onToggleToolBar(bool checked);
+    void onToggleStatusBar(bool checked);
+    void updateStatusBar();
     void onAbout();
     void onFind();
     void onReplace();
@@ -43,6 +52,7 @@ private slots:
 private:
     static QString revealSecret(const char* encoded);
     void initStatusBar();
+    void applyEditorColors();
     bool maybeSave();
     bool loadFile(const QString& filePath);
     bool saveFile(const QString& filePath);
@@ -52,6 +62,8 @@ private:
     QLabel* m_cursorLabel = nullptr;
     QLabel* m_authorLabel = nullptr;
     QString m_currentFilePath;
+    QColor m_fontColor;
+    QColor m_editorBgColor;
 };
 
 #endif

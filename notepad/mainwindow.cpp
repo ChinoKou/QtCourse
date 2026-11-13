@@ -3,15 +3,19 @@
 #include <QByteArray>
 #include <QClipboard>
 #include <QCloseEvent>
+#include <QColorDialog>
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QFontDialog>
 #include <QGuiApplication>
 #include <QLabel>
 #include <QMessageBox>
 #include <QMimeData>
 #include <QPushButton>
 #include <QStringConverter>
+#include <QTextCharFormat>
+#include <QTextCursor>
 #include <QTextDocument>
 #include <QTextStream>
 
@@ -35,6 +39,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actCopy, &QAction::triggered, this, &MainWindow::onCopy);
     connect(ui->actPaste, &QAction::triggered, this, &MainWindow::onPaste);
     connect(ui->actSelectAll, &QAction::triggered, this, &MainWindow::onSelectAll);
+    connect(ui->actFont, &QAction::triggered, this, &MainWindow::onFont);
+    connect(ui->actFontColor, &QAction::triggered, this, &MainWindow::onFontColor);
+    connect(ui->actFontBackColor, &QAction::triggered, this, &MainWindow::onFontBackColor);
+    connect(ui->actEditorBackColor, &QAction::triggered, this, &MainWindow::onEditorBackColor);
+    connect(ui->actWrap, &QAction::toggled, this, &MainWindow::onToggleWrap);
+    connect(ui->actToolBar, &QAction::toggled, this, &MainWindow::onToggleToolBar);
+    connect(ui->actStatusBar, &QAction::toggled, this, &MainWindow::onToggleStatusBar);
     connect(ui->actAbout, &QAction::triggered, this, &MainWindow::onAbout);
     connect(ui->actFind, &QAction::triggered, this, &MainWindow::onFind);
     connect(ui->actReplace, &QAction::triggered, this, &MainWindow::onReplace);
@@ -43,6 +54,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->textEdit, &QPlainTextEdit::redoAvailable, ui->actRedo, &QAction::setEnabled);
     connect(ui->textEdit, &QPlainTextEdit::copyAvailable, ui->actCut, &QAction::setEnabled);
     connect(ui->textEdit, &QPlainTextEdit::copyAvailable, ui->actCopy, &QAction::setEnabled);
+    connect(ui->textEdit, &QPlainTextEdit::textChanged, this, &MainWindow::updateStatusBar);
+    connect(ui->textEdit, &QPlainTextEdit::cursorPositionChanged, this, &MainWindow::updateStatusBar);
     connect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &MainWindow::updatePasteState);
 
     ui->actUndo->setEnabled(false);
@@ -51,6 +64,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actCopy->setEnabled(false);
     updatePasteState();
     updateWindowTitle();
+    updateStatusBar();
 }
 
 MainWindow::~MainWindow() {
@@ -139,6 +153,63 @@ void MainWindow::updatePasteState() {
     ui->actPaste->setEnabled(ui->textEdit->canPaste() && mimeData != nullptr && mimeData->hasText());
 }
 
+void MainWindow::onFont() {
+    bool ok = false;
+    const QFont font = QFontDialog::getFont(&ok, ui->textEdit->font(), this, QStringLiteral("选择字体"));
+    if (ok) {
+        ui->textEdit->setFont(font);
+    }
+}
+
+void MainWindow::onFontColor() {
+    const QColor initial = m_fontColor.isValid() ? m_fontColor : ui->textEdit->palette().color(QPalette::Text);
+    const QColor color = QColorDialog::getColor(initial, this, QStringLiteral("选择字体颜色"));
+    if (color.isValid()) {
+        m_fontColor = color;
+        applyEditorColors();
+    }
+}
+
+void MainWindow::onFontBackColor() {
+    const QColor initial = ui->textEdit->currentCharFormat().background().color();
+    const QColor color = QColorDialog::getColor(initial.isValid() ? initial : Qt::yellow, this, QStringLiteral("选择字体背景色"));
+    if (color.isValid()) {
+        QTextCharFormat fmt;
+        fmt.setBackground(color);
+        ui->textEdit->mergeCurrentCharFormat(fmt);
+    }
+}
+
+void MainWindow::onEditorBackColor() {
+    const QColor initial = m_editorBgColor.isValid() ? m_editorBgColor : ui->textEdit->palette().color(QPalette::Base);
+    const QColor color = QColorDialog::getColor(initial, this, QStringLiteral("选择编辑器背景色"));
+    if (color.isValid()) {
+        m_editorBgColor = color;
+        applyEditorColors();
+    }
+}
+
+void MainWindow::onToggleWrap(bool checked) {
+    ui->textEdit->setLineWrapMode(checked ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
+}
+
+void MainWindow::onToggleToolBar(bool checked) {
+    ui->toolBar->setVisible(checked);
+}
+
+void MainWindow::onToggleStatusBar(bool checked) {
+    ui->statusbar->setVisible(checked);
+}
+
+void MainWindow::updateStatusBar() {
+    const QString text = ui->textEdit->toPlainText();
+    const int lines = ui->textEdit->document()->blockCount();
+    m_statusLabel->setText(QStringLiteral("length: %1    lines: %2").arg(text.length()).arg(lines));
+
+    const QTextCursor cursor = ui->textEdit->textCursor();
+    m_cursorLabel->setText(QStringLiteral("Ln: %1    Col: %2").arg(cursor.blockNumber() + 1).arg(cursor.columnNumber() + 1));
+}
+
 void MainWindow::onAbout() {
     AboutDialog dialog(this);
     dialog.exec();
@@ -180,6 +251,22 @@ void MainWindow::initStatusBar() {
 
     m_authorLabel = new QLabel(revealSecret("h/b8g8XI"), this);
     ui->statusbar->addPermanentWidget(m_authorLabel);
+}
+
+void MainWindow::applyEditorColors() {
+    QStringList rules;
+    if (m_fontColor.isValid()) {
+        rules.append(QStringLiteral("color: %1;").arg(m_fontColor.name()));
+    }
+    if (m_editorBgColor.isValid()) {
+        rules.append(QStringLiteral("background-color: %1;").arg(m_editorBgColor.name()));
+    }
+    if (rules.isEmpty()) {
+        ui->textEdit->setStyleSheet(QString());
+    }
+    else {
+        ui->textEdit->setStyleSheet(QStringLiteral("QPlainTextEdit { %1 }").arg(rules.join(QLatin1Char(' '))));
+    }
 }
 
 bool MainWindow::maybeSave() {
