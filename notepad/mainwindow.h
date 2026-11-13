@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
 
+class QCloseEvent;
 class QLabel;
 
 QT_BEGIN_NAMESPACE
@@ -18,19 +20,31 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 private slots:
+    void onNewFile();
+    void onOpenFile();
+    bool onSaveFile();
+    bool onSaveAsFile();
     void onAbout();
     void onFind();
     void onReplace();
+    void updateWindowTitle();
 
 private:
     static QString revealSecret(const char* encoded);
     void initStatusBar();
+    bool maybeSave();
+    bool loadFile(const QString& filePath);
+    bool saveFile(const QString& filePath);
 
     Ui::MainWindow* ui;
     QLabel* m_statusLabel = nullptr;
     QLabel* m_cursorLabel = nullptr;
     QLabel* m_authorLabel = nullptr;
+    QString m_currentFilePath;
 };
 
 #endif
