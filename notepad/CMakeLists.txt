@@ -26,6 +26,11 @@ qt_add_executable(notepad
     res.qrc
 )
 
+target_include_directories(notepad
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 target_link_libraries(notepad
     PRIVATE
         Qt::Core
