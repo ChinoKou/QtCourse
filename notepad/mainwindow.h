@@ -18,6 +18,11 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
 
+private slots:
+    void onAbout();
+    void onFind();
+    void onReplace();
+
 private:
     static QString revealSecret(const char* encoded);
     void initStatusBar();

@@ -12,6 +12,15 @@ qt_add_executable(notepad
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    aboutdialog.cpp
+    aboutdialog.h
+    aboutdialog.ui
+    searchdialog.cpp
+    searchdialog.h
+    searchdialog.ui
+    replacedialog.cpp
+    replacedialog.h
+    replacedialog.ui
     res.qrc
 )
 

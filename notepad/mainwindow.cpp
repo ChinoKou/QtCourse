@@ -3,15 +3,37 @@
 #include <QByteArray>
 #include <QLabel>
 
+#include "aboutdialog.h"
+#include "replacedialog.h"
+#include "searchdialog.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     initStatusBar();
+
+    connect(ui->actAbout, &QAction::triggered, this, &MainWindow::onAbout);
+    connect(ui->actFind, &QAction::triggered, this, &MainWindow::onFind);
+    connect(ui->actReplace, &QAction::triggered, this, &MainWindow::onReplace);
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::onAbout() {
+    AboutDialog dialog(this);
+    dialog.exec();
+}
+
+void MainWindow::onFind() {
+    SearchDialog dialog(this);
+    dialog.exec();
+}
+
+void MainWindow::onReplace() {
+    ReplaceDialog dialog(this);
+    dialog.exec();
 }
 
 QString MainWindow::revealSecret(const char* encoded) {
