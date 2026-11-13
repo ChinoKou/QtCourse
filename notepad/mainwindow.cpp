@@ -216,13 +216,23 @@ void MainWindow::onAbout() {
 }
 
 void MainWindow::onFind() {
-    SearchDialog dialog(this);
-    dialog.exec();
+    if (m_searchDialog == nullptr) {
+        m_searchDialog = new SearchDialog(ui->textEdit, this);
+    }
+    m_searchDialog->setTargetText(ui->textEdit->textCursor().selectedText());
+    m_searchDialog->show();
+    m_searchDialog->raise();
+    m_searchDialog->activateWindow();
 }
 
 void MainWindow::onReplace() {
-    ReplaceDialog dialog(this);
-    dialog.exec();
+    if (m_replaceDialog == nullptr) {
+        m_replaceDialog = new ReplaceDialog(ui->textEdit, this);
+    }
+    m_replaceDialog->setTargetText(ui->textEdit->textCursor().selectedText());
+    m_replaceDialog->show();
+    m_replaceDialog->raise();
+    m_replaceDialog->activateWindow();
 }
 
 void MainWindow::updateWindowTitle() {

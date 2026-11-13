@@ -7,6 +7,8 @@
 
 class QCloseEvent;
 class QLabel;
+class ReplaceDialog;
+class SearchDialog;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -61,6 +63,8 @@ private:
     QLabel* m_statusLabel = nullptr;
     QLabel* m_cursorLabel = nullptr;
     QLabel* m_authorLabel = nullptr;
+    SearchDialog* m_searchDialog = nullptr;
+    ReplaceDialog* m_replaceDialog = nullptr;
     QString m_currentFilePath;
     QColor m_fontColor;
     QColor m_editorBgColor;
