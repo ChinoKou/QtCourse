@@ -7,6 +7,7 @@
 
 class QCloseEvent;
 class QLabel;
+class QTimer;
 class ReplaceDialog;
 class SearchDialog;
 
@@ -43,6 +44,9 @@ private slots:
     void onFontBackColor();
     void onEditorBackColor();
     void onToggleWrap(bool checked);
+    void onToggleLineNumbers(bool checked);
+    void onToggleAutoSave(bool checked);
+    void onAutoSaveTimeout();
     void onToggleToolBar(bool checked);
     void onToggleStatusBar(bool checked);
     void updateStatusBar();
@@ -65,6 +69,7 @@ private:
     QLabel* m_authorLabel = nullptr;
     SearchDialog* m_searchDialog = nullptr;
     ReplaceDialog* m_replaceDialog = nullptr;
+    QTimer* m_autoSaveTimer = nullptr;
     QString m_currentFilePath;
     QColor m_fontColor;
     QColor m_editorBgColor;

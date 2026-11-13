@@ -18,6 +18,7 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextStream>
+#include <QTimer>
 
 #include "aboutdialog.h"
 #include "replacedialog.h"
@@ -44,6 +45,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actFontBackColor, &QAction::triggered, this, &MainWindow::onFontBackColor);
     connect(ui->actEditorBackColor, &QAction::triggered, this, &MainWindow::onEditorBackColor);
     connect(ui->actWrap, &QAction::toggled, this, &MainWindow::onToggleWrap);
+    connect(ui->actShowLineNumbers, &QAction::toggled, this, &MainWindow::onToggleLineNumbers);
+    connect(ui->actAutoSave, &QAction::toggled, this, &MainWindow::onToggleAutoSave);
     connect(ui->actToolBar, &QAction::toggled, this, &MainWindow::onToggleToolBar);
     connect(ui->actStatusBar, &QAction::toggled, this, &MainWindow::onToggleStatusBar);
     connect(ui->actAbout, &QAction::triggered, this, &MainWindow::onAbout);
@@ -57,6 +60,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->textEdit, &QPlainTextEdit::textChanged, this, &MainWindow::updateStatusBar);
     connect(ui->textEdit, &QPlainTextEdit::cursorPositionChanged, this, &MainWindow::updateStatusBar);
     connect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &MainWindow::updatePasteState);
+
+    m_autoSaveTimer = new QTimer(this);
+    m_autoSaveTimer->setInterval(30000);
+    connect(m_autoSaveTimer, &QTimer::timeout, this, &MainWindow::onAutoSaveTimeout);
 
     ui->actUndo->setEnabled(false);
     ui->actRedo->setEnabled(false);
@@ -191,6 +198,29 @@ void MainWindow::onEditorBackColor() {
 
 void MainWindow::onToggleWrap(bool checked) {
     ui->textEdit->setLineWrapMode(checked ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
+}
+
+void MainWindow::onToggleLineNumbers(bool checked) {
+    ui->textEdit->setLineNumbersVisible(checked);
+}
+
+void MainWindow::onToggleAutoSave(bool checked) {
+    if (checked) {
+        m_autoSaveTimer->start();
+        ui->statusbar->showMessage(QStringLiteral("已开启定时自动保存（每30秒）"), 3000);
+    }
+    else {
+        m_autoSaveTimer->stop();
+        ui->statusbar->showMessage(QStringLiteral("已关闭定时自动保存"), 3000);
+    }
+}
+
+void MainWindow::onAutoSaveTimeout() {
+    if (!m_currentFilePath.isEmpty() && ui->textEdit->document()->isModified()) {
+        if (saveFile(m_currentFilePath)) {
+            ui->statusbar->showMessage(QStringLiteral("已定时自动保存：%1").arg(m_currentFilePath), 3000);
+        }
+    }
 }
 
 void MainWindow::onToggleToolBar(bool checked) {

@@ -12,6 +12,8 @@ qt_add_executable(notepad
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    codeeditor.cpp
+    codeeditor.h
     aboutdialog.cpp
     aboutdialog.h
     aboutdialog.ui
