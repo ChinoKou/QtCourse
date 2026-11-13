@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/app_icon.svg</file>
+        <file>icons/new.svg</file>
+        <file>icons/open.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/save_as.svg</file>
+        <file>icons/exit.svg</file>
+        <file>icons/undo.svg</file>
+        <file>icons/redo.svg</file>
+        <file>icons/cut.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/paste.svg</file>
+        <file>icons/select_all.svg</file>
+        <file>icons/find.svg</file>
+        <file>icons/replace.svg</file>
+        <file>icons/font.svg</file>
+        <file>icons/font_color.svg</file>
+        <file>icons/text_bg_color.svg</file>
+        <file>icons/editor_bg_color.svg</file>
+        <file>icons/wrap.svg</file>
+        <file>icons/line_number.svg</file>
+        <file>icons/toolbar.svg</file>
+        <file>icons/statusbar.svg</file>
+        <file>icons/autosave.svg</file>
+        <file>icons/about.svg</file>
+    </qresource>
+</RCC>

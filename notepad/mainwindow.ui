@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>860</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>未命名 - 文本编辑器</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/icons/app_icon.svg</normaloff>
+   </iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
+    <item>
+     <widget class="QPlainTextEdit" name="textEdit"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>860</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>文件(&amp;F)</string>
+    </property>
+    <addaction name="actNew"/>
+    <addaction name="actOpen"/>
+    <addaction name="actSave"/>
+    <addaction name="actSaveAs"/>
+    <addaction name="separator"/>
+    <addaction name="actAutoSave"/>
+    <addaction name="separator"/>
+    <addaction name="actExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>编辑(&amp;E)</string>
+    </property>
+    <addaction name="actUndo"/>
+    <addaction name="actRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actCut"/>
+    <addaction name="actCopy"/>
+    <addaction name="actPaste"/>
+    <addaction name="separator"/>
+    <addaction name="actFind"/>
+    <addaction name="actReplace"/>
+    <addaction name="separator"/>
+    <addaction name="actSelectAll"/>
+   </widget>
+   <widget class="QMenu" name="menuFormat">
+    <property name="title">
+     <string>格式(&amp;O)</string>
+    </property>
+    <addaction name="actWrap"/>
+    <addaction name="actShowLineNumbers"/>
+    <addaction name="actFont"/>
+    <addaction name="actFontColor"/>
+    <addaction name="separator"/>
+    <addaction name="actFontBackColor"/>
+    <addaction name="actEditorBackColor"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>查看(&amp;V)</string>
+    </property>
+    <addaction name="actToolBar"/>
+    <addaction name="actStatusBar"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>帮助(&amp;H)</string>
+    </property>
+    <addaction name="actAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuFormat"/>
+   <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actNew"/>
+   <addaction name="actOpen"/>
+   <addaction name="actSave"/>
+   <addaction name="actSaveAs"/>
+   <addaction name="separator"/>
+   <addaction name="actUndo"/>
+   <addaction name="actRedo"/>
+   <addaction name="actCut"/>
+   <addaction name="actCopy"/>
+   <addaction name="actPaste"/>
+   <addaction name="separator"/>
+   <addaction name="actFind"/>
+   <addaction name="actReplace"/>
+   <addaction name="separator"/>
+   <addaction name="actFont"/>
+   <addaction name="actWrap"/>
+   <addaction name="actShowLineNumbers"/>
+   <addaction name="separator"/>
+   <addaction name="actToolBar"/>
+   <addaction name="actStatusBar"/>
+  </widget>
+  <action name="actNew">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/new.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>新建(&amp;N)</string>
+   </property>
+   <property name="toolTip">
+    <string>新建文件 (Ctrl+N)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actOpen">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/open.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>打开(&amp;O)</string>
+   </property>
+   <property name="toolTip">
+    <string>打开文件 (Ctrl+O)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actSave">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/save.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>保存(&amp;S)</string>
+   </property>
+   <property name="toolTip">
+    <string>保存文件 (Ctrl+S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actSaveAs">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/save_as.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>另存为(&amp;A)</string>
+   </property>
+   <property name="toolTip">
+    <string>另存为 (Ctrl+Shift+S)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actExit">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/exit.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>退出(&amp;X)</string>
+   </property>
+   <property name="toolTip">
+    <string>退出程序</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actUndo">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/undo.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>撤销(&amp;U)</string>
+   </property>
+   <property name="toolTip">
+    <string>撤销 (Ctrl+Z)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actRedo">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/redo.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>恢复(&amp;R)</string>
+   </property>
+   <property name="toolTip">
+    <string>恢复 (Ctrl+Y)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actCut">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/cut.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>剪切(&amp;T)</string>
+   </property>
+   <property name="toolTip">
+    <string>剪切 (Ctrl+X)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actCopy">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/copy.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>复制(&amp;C)</string>
+   </property>
+   <property name="toolTip">
+    <string>复制 (Ctrl+C)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actPaste">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/paste.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>粘贴(&amp;P)</string>
+   </property>
+   <property name="toolTip">
+    <string>粘贴 (Ctrl+V)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actFind">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/find.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>查找(&amp;F)</string>
+   </property>
+   <property name="toolTip">
+    <string>查找文本 (Ctrl+F)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actReplace">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/replace.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>替换(&amp;H)</string>
+   </property>
+   <property name="toolTip">
+    <string>替换文本 (Ctrl+H)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actSelectAll">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/select_all.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>全选(&amp;A)</string>
+   </property>
+   <property name="toolTip">
+    <string>全选 (Ctrl+A)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actWrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/wrap.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>自动换行(&amp;W)</string>
+   </property>
+   <property name="toolTip">
+    <string>切换自动换行</string>
+   </property>
+  </action>
+  <action name="actShowLineNumbers">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/line_number.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>显示行号(&amp;L)</string>
+   </property>
+   <property name="toolTip">
+    <string>显示或隐藏行号</string>
+   </property>
+  </action>
+  <action name="actFont">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/font.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>字体(&amp;F)...</string>
+   </property>
+   <property name="toolTip">
+    <string>设置编辑器字体</string>
+   </property>
+  </action>
+  <action name="actFontColor">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/font_color.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>字体颜色...</string>
+   </property>
+   <property name="toolTip">
+    <string>设置字体颜色</string>
+   </property>
+  </action>
+  <action name="actFontBackColor">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/text_bg_color.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>字体背景色...</string>
+   </property>
+   <property name="toolTip">
+    <string>设置选中文本背景色</string>
+   </property>
+  </action>
+  <action name="actEditorBackColor">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/editor_bg_color.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>编辑器背景色...</string>
+   </property>
+   <property name="toolTip">
+    <string>设置编辑器背景色</string>
+   </property>
+  </action>
+  <action name="actToolBar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/toolbar.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>工具栏(&amp;T)</string>
+   </property>
+   <property name="toolTip">
+    <string>显示或隐藏工具栏</string>
+   </property>
+  </action>
+  <action name="actStatusBar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/statusbar.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>状态栏(&amp;S)</string>
+   </property>
+   <property name="toolTip">
+    <string>显示或隐藏状态栏</string>
+   </property>
+  </action>
+  <action name="actAutoSave">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/autosave.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>定时自动保存</string>
+   </property>
+   <property name="toolTip">
+    <string>每30秒自动保存已命名文件</string>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/about.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>关于(&amp;A)</string>
+   </property>
+   <property name="toolTip">
+    <string>关于简单文本编辑器</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
