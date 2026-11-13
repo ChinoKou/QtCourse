@@ -24,5 +24,8 @@
         <file>icons/statusbar.svg</file>
         <file>icons/autosave.svg</file>
         <file>icons/about.svg</file>
+        <file>icons/theme.svg</file>
+        <file>notepad-light.qss</file>
+        <file>notepad-dark.qss</file>
     </qresource>
 </RCC>

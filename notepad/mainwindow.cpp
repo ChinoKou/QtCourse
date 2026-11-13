@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include <QApplication>
 #include <QByteArray>
 #include <QClipboard>
 #include <QCloseEvent>
@@ -15,6 +16,7 @@
 #include <QPushButton>
 #include <QStringConverter>
 #include <QStyle>
+#include <QStyleHints>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -50,6 +52,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actAutoSave, &QAction::toggled, this, &MainWindow::onToggleAutoSave);
     connect(ui->actToolBar, &QAction::toggled, this, &MainWindow::onToggleToolBar);
     connect(ui->actStatusBar, &QAction::toggled, this, &MainWindow::onToggleStatusBar);
+    connect(ui->actDarkMode, &QAction::toggled, this, &MainWindow::onToggleDarkMode);
+    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this, &MainWindow::applyColorScheme);
     connect(ui->actAbout, &QAction::triggered, this, &MainWindow::onAbout);
     connect(ui->actFind, &QAction::triggered, this, &MainWindow::onFind);
     connect(ui->actReplace, &QAction::triggered, this, &MainWindow::onReplace);
@@ -71,6 +75,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actCut->setEnabled(false);
     ui->actCopy->setEnabled(false);
     updatePasteState();
+    applyColorScheme(QGuiApplication::styleHints()->colorScheme());
     updateWindowTitle();
     updateStatusBar();
 }
@@ -233,6 +238,24 @@ void MainWindow::onToggleToolBar(bool checked) {
 
 void MainWindow::onToggleStatusBar(bool checked) {
     ui->statusbar->setVisible(checked);
+}
+
+void MainWindow::onToggleDarkMode(bool checked) {
+    applyColorScheme(checked ? Qt::ColorScheme::Dark : Qt::ColorScheme::Light);
+}
+
+void MainWindow::applyColorScheme(Qt::ColorScheme scheme) {
+    const bool dark = (scheme == Qt::ColorScheme::Dark);
+    const QString path = dark ? QStringLiteral(":/notepad-dark.qss") : QStringLiteral(":/notepad-light.qss");
+    QFile styleFile(path);
+    if (!styleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qFatal("样式表文件无法打开");
+    }
+    qApp->setStyleSheet(QString::fromUtf8(styleFile.readAll()));
+    ui->textEdit->setDarkMode(dark);
+    ui->actDarkMode->blockSignals(true);
+    ui->actDarkMode->setChecked(dark);
+    ui->actDarkMode->blockSignals(false);
 }
 
 void MainWindow::updateStatusBar() {

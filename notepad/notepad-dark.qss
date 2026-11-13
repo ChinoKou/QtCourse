@@ -1,0 +1,245 @@
+QMainWindow, QDialog {
+    background-color: #0F172A;
+    color: #E2E8F0;
+    font-family: "Segoe UI", "Microsoft YaHei UI", sans-serif;
+    font-size: 13px;
+}
+
+QMenuBar {
+    background-color: #1E293B;
+    color: #E2E8F0;
+    border-bottom: 1px solid #334155;
+    padding: 3px 6px;
+}
+
+QMenuBar::item {
+    background: transparent;
+    padding: 5px 10px;
+    border-radius: 6px;
+}
+
+QMenuBar::item:selected {
+    background-color: #334155;
+    color: #93C5FD;
+}
+
+QMenu {
+    background-color: #1E293B;
+    color: #E2E8F0;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 6px 26px 6px 12px;
+    border-radius: 5px;
+}
+
+QMenu::item:selected {
+    background-color: #334155;
+    color: #93C5FD;
+}
+
+QMenu::separator {
+    height: 1px;
+    background: #334155;
+    margin: 4px 8px;
+}
+
+QToolBar {
+    background-color: #1E293B;
+    border: none;
+    border-bottom: 1px solid #334155;
+    padding: 4px 8px;
+    spacing: 3px;
+}
+
+QToolBar::separator {
+    width: 1px;
+    background: #334155;
+    margin: 5px 6px;
+}
+
+QToolButton {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 5px;
+}
+
+QToolButton:hover {
+    background-color: #334155;
+    border-color: #475569;
+}
+
+QToolButton:pressed {
+    background-color: #475569;
+}
+
+QToolButton:checked {
+    background-color: #1D4ED8;
+    border-color: #3B82F6;
+}
+
+QFrame#headerFrame {
+    background-color: #162032;
+    border-bottom: 1px solid #334155;
+}
+
+QLabel#labelDocBadge {
+    border-radius: 10px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+QLabel#labelDocBadge[modified="false"] {
+    background-color: #14532D;
+    color: #86EFAC;
+}
+
+QLabel#labelDocBadge[modified="true"] {
+    background-color: #78350F;
+    color: #FDE68A;
+}
+
+QLabel#labelDocInfo {
+    color: #94A3B8;
+    font-size: 12px;
+}
+
+QLabel#labelWrapBadge,
+QLabel#labelLineNumBadge,
+QLabel#labelAutoSaveBadge {
+    background-color: #334155;
+    color: #CBD5E1;
+    border-radius: 9px;
+    padding: 2px 9px;
+    font-size: 11px;
+}
+
+QPlainTextEdit {
+    background-color: #0F172A;
+    color: #E2E8F0;
+    border: none;
+    selection-background-color: #1D4ED8;
+    selection-color: #FFFFFF;
+}
+
+QStatusBar {
+    background-color: #162032;
+    color: #94A3B8;
+    border-top: 1px solid #334155;
+    padding: 2px 6px;
+}
+
+QStatusBar::item {
+    border: none;
+}
+
+QLabel#statusPill {
+    background-color: #334155;
+    color: #CBD5E1;
+    border-radius: 8px;
+    padding: 2px 9px;
+    margin: 2px 3px;
+    font-size: 11px;
+}
+
+QLabel#authorPill {
+    background-color: #1E3A8A;
+    color: #93C5FD;
+    border-radius: 8px;
+    padding: 2px 10px;
+    margin: 2px 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+QFrame#heroFrame {
+    background-color: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+QFrame#infoCard {
+    background-color: #1E293B;
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+QLabel#labelSubtitle {
+    color: #60A5FA;
+    font-size: 12px;
+}
+
+QLabel#labelDevKey,
+QLabel#labelIdKey,
+QLabel#labelStackKey {
+    color: #94A3B8;
+    font-weight: 600;
+}
+
+QLineEdit {
+    background-color: #1E293B;
+    color: #F1F5F9;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #60A5FA;
+}
+
+QGroupBox {
+    border: 1px solid #334155;
+    border-radius: 8px;
+    margin-top: 8px;
+    padding-top: 8px;
+    color: #CBD5E1;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 4px;
+}
+
+QPushButton {
+    background-color: #1E293B;
+    color: #E2E8F0;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    padding: 5px 14px;
+}
+
+QPushButton:hover {
+    background-color: #334155;
+}
+
+QPushButton#btnFindNext,
+QPushButton#btnOk {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    border: 1px solid #3B82F6;
+    font-weight: 600;
+}
+
+QPushButton#btnFindNext:hover,
+QPushButton#btnOk:hover {
+    background-color: #3B82F6;
+}
+
+QLabel#labelStatus {
+    background-color: #1E293B;
+    color: #93C5FD;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+QCheckBox, QRadioButton {
+    color: #E2E8F0;
+}

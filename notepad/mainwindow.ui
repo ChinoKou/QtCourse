@@ -180,6 +180,8 @@
     </property>
     <addaction name="actToolBar"/>
     <addaction name="actStatusBar"/>
+    <addaction name="separator"/>
+    <addaction name="actDarkMode"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -241,6 +243,7 @@
    <addaction name="separator"/>
    <addaction name="actToolBar"/>
    <addaction name="actStatusBar"/>
+   <addaction name="actDarkMode"/>
    <addaction name="actAbout"/>
   </widget>
   <action name="actNew">
@@ -609,6 +612,25 @@
    </property>
    <property name="toolTip">
     <string>关于简单文本编辑器</string>
+   </property>
+  </action>
+  <action name="actDarkMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/theme.svg</normaloff>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>深色主题(&amp;D)</string>
+   </property>
+   <property name="toolTip">
+    <string>切换浅色/深色外观主题</string>
    </property>
   </action>
  </widget>

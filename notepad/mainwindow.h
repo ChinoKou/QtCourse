@@ -49,6 +49,8 @@ private slots:
     void onAutoSaveTimeout();
     void onToggleToolBar(bool checked);
     void onToggleStatusBar(bool checked);
+    void onToggleDarkMode(bool checked);
+    void applyColorScheme(Qt::ColorScheme scheme);
     void updateStatusBar();
     void onAbout();
     void onFind();
