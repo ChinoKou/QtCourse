@@ -58,6 +58,7 @@ private slots:
 private:
     static QString revealSecret(const char* encoded);
     void initStatusBar();
+    void updateHeaderBadges();
     void applyEditorColors();
     bool maybeSave();
     bool loadFile(const QString& filePath);
@@ -66,6 +67,7 @@ private:
     Ui::MainWindow* ui;
     QLabel* m_statusLabel = nullptr;
     QLabel* m_cursorLabel = nullptr;
+    QLabel* m_encodingLabel = nullptr;
     QLabel* m_authorLabel = nullptr;
     SearchDialog* m_searchDialog = nullptr;
     ReplaceDialog* m_replaceDialog = nullptr;

@@ -14,6 +14,7 @@
 #include <QMimeData>
 #include <QPushButton>
 #include <QStringConverter>
+#include <QStyle>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -198,10 +199,12 @@ void MainWindow::onEditorBackColor() {
 
 void MainWindow::onToggleWrap(bool checked) {
     ui->textEdit->setLineWrapMode(checked ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
+    updateHeaderBadges();
 }
 
 void MainWindow::onToggleLineNumbers(bool checked) {
     ui->textEdit->setLineNumbersVisible(checked);
+    updateHeaderBadges();
 }
 
 void MainWindow::onToggleAutoSave(bool checked) {
@@ -213,6 +216,7 @@ void MainWindow::onToggleAutoSave(bool checked) {
         m_autoSaveTimer->stop();
         ui->statusbar->showMessage(QStringLiteral("已关闭定时自动保存"), 3000);
     }
+    updateHeaderBadges();
 }
 
 void MainWindow::onAutoSaveTimeout() {
@@ -269,6 +273,20 @@ void MainWindow::updateWindowTitle() {
     const QString name = m_currentFilePath.isEmpty() ? QStringLiteral("未命名") : QFileInfo(m_currentFilePath).fileName();
     const bool modified = ui->textEdit->document()->isModified();
     setWindowTitle(QStringLiteral("%1%2 - 文本编辑器").arg(name, modified ? QStringLiteral(" *") : QString()));
+    updateHeaderBadges();
+}
+
+void MainWindow::updateHeaderBadges() {
+    const bool modified = ui->textEdit->document()->isModified();
+    ui->labelDocBadge->setText(modified ? QStringLiteral("未保存") : QStringLiteral("已保存"));
+    ui->labelDocBadge->setProperty("modified", modified);
+    ui->labelDocBadge->style()->unpolish(ui->labelDocBadge);
+    ui->labelDocBadge->style()->polish(ui->labelDocBadge);
+
+    ui->labelDocInfo->setText(m_currentFilePath.isEmpty() ? QStringLiteral("未命名草稿") : m_currentFilePath);
+    ui->labelWrapBadge->setText(ui->actWrap->isChecked() ? QStringLiteral("自动换行") : QStringLiteral("单行滚动"));
+    ui->labelLineNumBadge->setText(ui->actShowLineNumbers->isChecked() ? QStringLiteral("行号：开") : QStringLiteral("行号：关"));
+    ui->labelAutoSaveBadge->setText(ui->actAutoSave->isChecked() ? QStringLiteral("自动保存：30s") : QStringLiteral("自动保存：关"));
 }
 
 QString MainWindow::revealSecret(const char* encoded) {
@@ -282,14 +300,19 @@ QString MainWindow::revealSecret(const char* encoded) {
 
 void MainWindow::initStatusBar() {
     m_statusLabel = new QLabel(QStringLiteral("length: 0    lines: 1"), this);
-    m_statusLabel->setMaximumWidth(180);
+    m_statusLabel->setObjectName(QStringLiteral("statusPill"));
     ui->statusbar->addPermanentWidget(m_statusLabel);
 
     m_cursorLabel = new QLabel(QStringLiteral("Ln: 1    Col: 1"), this);
-    m_cursorLabel->setMaximumWidth(150);
+    m_cursorLabel->setObjectName(QStringLiteral("statusPill"));
     ui->statusbar->addPermanentWidget(m_cursorLabel);
 
+    m_encodingLabel = new QLabel(QStringLiteral("UTF-8"), this);
+    m_encodingLabel->setObjectName(QStringLiteral("statusPill"));
+    ui->statusbar->addPermanentWidget(m_encodingLabel);
+
     m_authorLabel = new QLabel(revealSecret("h/b8g8XI"), this);
+    m_authorLabel->setObjectName(QStringLiteral("authorPill"));
     ui->statusbar->addPermanentWidget(m_authorLabel);
 }
 

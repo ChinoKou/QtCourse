@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>600</height>
+    <width>960</width>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,90 @@
      <number>1</number>
     </property>
     <item>
+     <widget class="QFrame" name="headerFrame">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>38</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::NoFrame</enum>
+      </property>
+      <layout class="QHBoxLayout" name="headerLayout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="labelDocBadge">
+         <property name="text">
+          <string>已保存</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelDocInfo">
+         <property name="text">
+          <string>未命名文档</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="headerSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelWrapBadge">
+         <property name="text">
+          <string>自动换行</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelLineNumBadge">
+         <property name="text">
+          <string>行号：开</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelAutoSaveBadge">
+         <property name="text">
+          <string>自动保存：关</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="CodeEditor" name="textEdit"/>
     </item>
    </layout>
@@ -45,8 +129,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>860</width>
-     <height>22</height>
+     <width>960</width>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -114,6 +198,18 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -135,11 +231,17 @@
    <addaction name="actReplace"/>
    <addaction name="separator"/>
    <addaction name="actFont"/>
+   <addaction name="actFontColor"/>
+   <addaction name="actFontBackColor"/>
+   <addaction name="actEditorBackColor"/>
+   <addaction name="separator"/>
    <addaction name="actWrap"/>
    <addaction name="actShowLineNumbers"/>
+   <addaction name="actAutoSave"/>
    <addaction name="separator"/>
    <addaction name="actToolBar"/>
    <addaction name="actStatusBar"/>
+   <addaction name="actAbout"/>
   </widget>
   <action name="actNew">
    <property name="icon">

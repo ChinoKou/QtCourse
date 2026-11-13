@@ -1,5 +1,7 @@
 #include "codeeditor.h"
 
+#include <QFont>
+#include <QFontMetrics>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QResizeEvent>
@@ -7,6 +9,11 @@
 
 CodeEditor::CodeEditor(QWidget* parent) : QPlainTextEdit(parent) {
     m_lineNumberArea = new LineNumberArea(this);
+
+    QFont editorFont(QStringLiteral("Consolas"), 11);
+    editorFont.setStyleHint(QFont::Monospace);
+    setFont(editorFont);
+    setTabStopDistance(fontMetrics().horizontalAdvance(QLatin1Char(' ')) * 4);
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
@@ -26,7 +33,7 @@ int CodeEditor::lineNumberAreaWidth() const {
         max /= 10;
         ++digits;
     }
-    const int space = 12 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+    const int space = 20 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
     return space;
 }
 
@@ -38,6 +45,12 @@ void CodeEditor::setLineNumbersVisible(bool visible) {
 
 bool CodeEditor::areLineNumbersVisible() const {
     return m_showLineNumbers;
+}
+
+void CodeEditor::setDarkMode(bool dark) {
+    m_darkMode = dark;
+    highlightCurrentLine();
+    m_lineNumberArea->update();
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int) {
@@ -69,7 +82,7 @@ void CodeEditor::highlightCurrentLine() {
     QList<QTextEdit::ExtraSelection> extraSelections;
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
-        const QColor lineColor = QColor(Qt::yellow).lighter(160);
+        const QColor lineColor = m_darkMode ? QColor(30, 41, 59) : QColor(239, 246, 255);
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
         selection.cursor = textCursor();
@@ -77,6 +90,7 @@ void CodeEditor::highlightCurrentLine() {
         extraSelections.append(selection);
     }
     setExtraSelections(extraSelections);
+    m_lineNumberArea->update();
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event) {
@@ -84,8 +98,17 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event) {
         return;
     }
     QPainter painter(m_lineNumberArea);
-    painter.fillRect(event->rect(), QColor(240, 240, 240));
+    const QColor bgColor = m_darkMode ? QColor(24, 29, 38) : QColor(248, 250, 252);
+    const QColor borderColor = m_darkMode ? QColor(42, 49, 64) : QColor(226, 232, 240);
+    const QColor activeColor = m_darkMode ? QColor(96, 165, 250) : QColor(37, 99, 235);
+    const QColor mutedColor = m_darkMode ? QColor(100, 116, 139) : QColor(148, 163, 184);
 
+    painter.fillRect(event->rect(), bgColor);
+    painter.setPen(borderColor);
+    painter.drawLine(m_lineNumberArea->width() - 1, event->rect().top(),
+                     m_lineNumberArea->width() - 1, event->rect().bottom());
+
+    const int currentBlock = textCursor().blockNumber();
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
     int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
@@ -94,8 +117,12 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event) {
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             const QString number = QString::number(blockNumber + 1);
-            painter.setPen(Qt::darkGray);
-            painter.drawText(0, top, m_lineNumberArea->width() - 6, fontMetrics().height(),
+            QFont f = painter.font();
+            const bool isCurrent = (blockNumber == currentBlock);
+            f.setBold(isCurrent);
+            painter.setFont(f);
+            painter.setPen(isCurrent ? activeColor : mutedColor);
+            painter.drawText(0, top, m_lineNumberArea->width() - 10, fontMetrics().height(),
                              Qt::AlignRight | Qt::AlignVCenter, number);
         }
         block = block.next();

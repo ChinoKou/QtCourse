@@ -6,70 +6,213 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>190</height>
+    <width>470</width>
+    <height>260</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>替换</string>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>245</height>
+   </size>
   </property>
-  <layout class="QHBoxLayout" name="mainLayout">
+  <property name="windowTitle">
+   <string>查找与替换</string>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>18</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>18</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
    <item>
-    <layout class="QVBoxLayout" name="leftLayout">
+    <layout class="QHBoxLayout" name="bodyLayout">
+     <property name="spacing">
+      <number>14</number>
+     </property>
      <item>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="labelTarget">
-         <property name="text">
-          <string>查找目标(&amp;N)：</string>
+      <layout class="QVBoxLayout" name="leftLayout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="horizontalSpacing">
+          <number>10</number>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEditTarget"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="labelReplace">
-         <property name="text">
-          <string>替换为(&amp;P)：</string>
+         <property name="verticalSpacing">
+          <number>10</number>
          </property>
-        </widget>
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelTarget">
+           <property name="text">
+            <string>查找目标(&amp;N)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEditTarget">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="placeholderText">
+            <string>输入要查找的内容...</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelReplace">
+           <property name="text">
+            <string>替换为(&amp;P)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEditReplace">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="placeholderText">
+            <string>输入替换后的新内容...</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEditReplace"/>
+       <item>
+        <layout class="QHBoxLayout" name="optionLayout">
+         <property name="spacing">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkCaseSensitive">
+           <property name="text">
+            <string>区分大小写(&amp;C)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBoxDirection">
+           <property name="title">
+            <string>搜索方向</string>
+           </property>
+           <layout class="QHBoxLayout" name="directionLayout">
+            <property name="spacing">
+             <number>12</number>
+            </property>
+            <property name="leftMargin">
+             <number>12</number>
+            </property>
+            <property name="topMargin">
+             <number>8</number>
+            </property>
+            <property name="rightMargin">
+             <number>12</number>
+            </property>
+            <property name="bottomMargin">
+             <number>8</number>
+            </property>
+            <item>
+             <widget class="QRadioButton" name="radioUp">
+              <property name="text">
+               <string>向上(&amp;U)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioDown">
+              <property name="text">
+               <string>向下(&amp;D)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="optionLayout">
+      <layout class="QVBoxLayout" name="btnLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
        <item>
-        <widget class="QCheckBox" name="checkCaseSensitive">
+        <widget class="QPushButton" name="btnFindNext">
+         <property name="minimumSize">
+          <size>
+           <width>114</width>
+           <height>33</height>
+          </size>
+         </property>
          <property name="text">
-          <string>区分大小写(&amp;C)</string>
+          <string>查找下一个(&amp;F)</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBoxDirection">
-         <property name="title">
-          <string>方向</string>
+        <widget class="QPushButton" name="btnReplace">
+         <property name="minimumSize">
+          <size>
+           <width>114</width>
+           <height>33</height>
+          </size>
          </property>
-         <layout class="QHBoxLayout" name="directionLayout">
-          <item>
-           <widget class="QRadioButton" name="radioUp">
-            <property name="text">
-             <string>向上(&amp;U)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioDown">
-            <property name="text">
-             <string>向下(&amp;D)</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="text">
+          <string>替换(&amp;R)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnReplaceAll">
+         <property name="minimumSize">
+          <size>
+           <width>114</width>
+           <height>33</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>全部替换(&amp;A)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCancel">
+         <property name="minimumSize">
+          <size>
+           <width>114</width>
+           <height>33</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>取消</string>
+         </property>
         </widget>
        </item>
       </layout>
@@ -77,36 +220,17 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="btnLayout">
-     <item>
-      <widget class="QPushButton" name="btnFindNext">
-       <property name="text">
-        <string>查找下一个(&amp;F)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnReplace">
-       <property name="text">
-        <string>替换(&amp;R)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnReplaceAll">
-       <property name="text">
-        <string>全部替换(&amp;A)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnCancel">
-       <property name="text">
-        <string>取消</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QLabel" name="labelStatus">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>就绪：支持单次替换与全文档原子撤销替换</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

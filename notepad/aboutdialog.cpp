@@ -6,7 +6,9 @@
 
 AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog) {
     ui->setupUi(this);
-    ui->labelDevName->setText(revealSecret("i9P0gP/wjO7qm9nqiP3micHMUEEYTk+RyNaE69mAyP9CUVZaW0VRQlhUWl9G"));
+    ui->labelDevValue->setText(revealSecret("h/b8g8XI"));
+    ui->labelIdValue->setText(revealSecret("XF9GUURQUFxWRFFAUw=="));
+    connect(ui->btnOk, &QPushButton::clicked, this, &QDialog::accept);
 }
 
 AboutDialog::~AboutDialog() {
