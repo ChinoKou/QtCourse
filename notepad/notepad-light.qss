@@ -245,11 +245,3 @@ QPushButton#btnFindNext:pressed,
 QPushButton#btnOk:pressed {
     background-color: #1E40AF;
 }
-
-QLabel#labelStatus {
-    background-color: #EEF2FF;
-    color: #3730A3;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 12px;
-}

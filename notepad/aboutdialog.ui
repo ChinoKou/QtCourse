@@ -99,7 +99,7 @@
         <item>
          <widget class="QLabel" name="labelSubtitle">
           <property name="text">
-           <string>Qt 6 Text Studio · 版本 v1.0</string>
+           <string>版本 v1.0</string>
           </property>
          </widget>
         </item>
@@ -163,14 +163,14 @@
       <item row="2" column="0">
        <widget class="QLabel" name="labelStackKey">
         <property name="text">
-         <string>核心特性</string>
+         <string>构建环境</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QLabel" name="labelStackValue">
         <property name="text">
-         <string>行号显示 · 查找替换 · 自动保存 · 双主题</string>
+         <string>Qt 6.11.2 (MinGW 64-bit)</string>
         </property>
        </widget>
       </item>

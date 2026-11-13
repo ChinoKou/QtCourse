@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>260</height>
+    <height>220</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>450</width>
-    <height>245</height>
+    <height>205</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -218,19 +218,6 @@
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="labelStatus">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>就绪：支持单次替换与全文档原子撤销替换</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

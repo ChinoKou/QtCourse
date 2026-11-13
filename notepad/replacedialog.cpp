@@ -46,19 +46,11 @@ bool ReplaceDialog::findMatch() {
         flags |= QTextDocument::FindBackward;
     }
     if (m_editor->find(target, flags)) {
-        const QTextCursor c = m_editor->textCursor();
-        ui->labelStatus->setText(QStringLiteral("已匹配：第 %1 行，第 %2 列")
-                                     .arg(c.blockNumber() + 1)
-                                     .arg(c.columnNumber() + 1));
         return true;
     }
     const QTextCursor savedCursor = m_editor->textCursor();
     m_editor->moveCursor(backward ? QTextCursor::End : QTextCursor::Start);
     if (m_editor->find(target, flags)) {
-        const QTextCursor c = m_editor->textCursor();
-        ui->labelStatus->setText(QStringLiteral("已循环匹配：第 %1 行，第 %2 列")
-                                     .arg(c.blockNumber() + 1)
-                                     .arg(c.columnNumber() + 1));
         return true;
     }
     m_editor->setTextCursor(savedCursor);
@@ -68,13 +60,11 @@ bool ReplaceDialog::findMatch() {
 void ReplaceDialog::onFindNext() {
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
-        ui->labelStatus->setText(QStringLiteral("提示：查找内容不能为空"));
         QMessageBox::information(this, QStringLiteral("查找"), QStringLiteral("请输入要查找的内容。"));
         ui->lineEditTarget->setFocus();
         return;
     }
     if (!findMatch()) {
-        ui->labelStatus->setText(QStringLiteral("未找到匹配项：\"%1\"").arg(target));
         QMessageBox::information(this, QStringLiteral("查找"),
                                  QStringLiteral("找不到 \"%1\"").arg(target));
     }
@@ -86,7 +76,6 @@ void ReplaceDialog::onReplace() {
     }
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
-        ui->labelStatus->setText(QStringLiteral("提示：查找内容不能为空"));
         QMessageBox::information(this, QStringLiteral("替换"), QStringLiteral("请输入要查找的内容。"));
         ui->lineEditTarget->setFocus();
         return;
@@ -101,8 +90,6 @@ void ReplaceDialog::onReplace() {
         replaced = true;
     }
     if (!findMatch()) {
-        ui->labelStatus->setText(replaced ? QStringLiteral("已完成当前替换，无更多匹配项")
-                                          : QStringLiteral("未找到匹配项：\"%1\"").arg(target));
         if (!replaced) {
             QMessageBox::information(this, QStringLiteral("替换"),
                                      QStringLiteral("找不到 \"%1\"").arg(target));
@@ -116,7 +103,6 @@ void ReplaceDialog::onReplaceAll() {
     }
     const QString target = ui->lineEditTarget->text();
     if (target.isEmpty()) {
-        ui->labelStatus->setText(QStringLiteral("提示：查找内容不能为空"));
         QMessageBox::information(this, QStringLiteral("替换"), QStringLiteral("请输入要查找的内容。"));
         ui->lineEditTarget->setFocus();
         return;
@@ -140,12 +126,10 @@ void ReplaceDialog::onReplaceAll() {
     undoGroup.endEditBlock();
     if (count == 0) {
         m_editor->setTextCursor(savedCursor);
-        ui->labelStatus->setText(QStringLiteral("未找到匹配项：\"%1\"").arg(target));
         QMessageBox::information(this, QStringLiteral("替换"),
                                  QStringLiteral("找不到 \"%1\"").arg(target));
     }
     else {
-        ui->labelStatus->setText(QStringLiteral("全部替换完成：共替换 %1 处").arg(count));
         QMessageBox::information(this, QStringLiteral("替换"),
                                  QStringLiteral("已完成全部替换，共替换 %1 处。").arg(count));
     }

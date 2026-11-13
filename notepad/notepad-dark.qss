@@ -232,14 +232,6 @@ QPushButton#btnOk:hover {
     background-color: #3B82F6;
 }
 
-QLabel#labelStatus {
-    background-color: #1E293B;
-    color: #93C5FD;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 12px;
-}
-
 QCheckBox, QRadioButton {
     color: #E2E8F0;
 }

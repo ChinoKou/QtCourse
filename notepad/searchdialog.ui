@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>210</height>
+    <height>172</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>430</width>
-    <height>195</height>
+    <height>160</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -179,19 +179,6 @@
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="labelStatus">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>就绪：请输入查找内容并点击查找下一个</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
