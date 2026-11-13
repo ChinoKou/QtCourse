@@ -1,12 +1,15 @@
 #include "mainwindow.h"
 
 #include <QByteArray>
+#include <QClipboard>
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QGuiApplication>
 #include <QLabel>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QPushButton>
 #include <QStringConverter>
 #include <QTextDocument>
@@ -26,11 +29,27 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->actSave, &QAction::triggered, this, &MainWindow::onSaveFile);
     connect(ui->actSaveAs, &QAction::triggered, this, &MainWindow::onSaveAsFile);
     connect(ui->actExit, &QAction::triggered, this, &QWidget::close);
+    connect(ui->actUndo, &QAction::triggered, this, &MainWindow::onUndo);
+    connect(ui->actRedo, &QAction::triggered, this, &MainWindow::onRedo);
+    connect(ui->actCut, &QAction::triggered, this, &MainWindow::onCut);
+    connect(ui->actCopy, &QAction::triggered, this, &MainWindow::onCopy);
+    connect(ui->actPaste, &QAction::triggered, this, &MainWindow::onPaste);
+    connect(ui->actSelectAll, &QAction::triggered, this, &MainWindow::onSelectAll);
     connect(ui->actAbout, &QAction::triggered, this, &MainWindow::onAbout);
     connect(ui->actFind, &QAction::triggered, this, &MainWindow::onFind);
     connect(ui->actReplace, &QAction::triggered, this, &MainWindow::onReplace);
     connect(ui->textEdit->document(), &QTextDocument::modificationChanged, this, &MainWindow::updateWindowTitle);
+    connect(ui->textEdit, &QPlainTextEdit::undoAvailable, ui->actUndo, &QAction::setEnabled);
+    connect(ui->textEdit, &QPlainTextEdit::redoAvailable, ui->actRedo, &QAction::setEnabled);
+    connect(ui->textEdit, &QPlainTextEdit::copyAvailable, ui->actCut, &QAction::setEnabled);
+    connect(ui->textEdit, &QPlainTextEdit::copyAvailable, ui->actCopy, &QAction::setEnabled);
+    connect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &MainWindow::updatePasteState);
 
+    ui->actUndo->setEnabled(false);
+    ui->actRedo->setEnabled(false);
+    ui->actCut->setEnabled(false);
+    ui->actCopy->setEnabled(false);
+    updatePasteState();
     updateWindowTitle();
 }
 
@@ -89,6 +108,35 @@ bool MainWindow::onSaveAsFile() {
         return false;
     }
     return saveFile(filePath);
+}
+
+void MainWindow::onUndo() {
+    ui->textEdit->undo();
+}
+
+void MainWindow::onRedo() {
+    ui->textEdit->redo();
+}
+
+void MainWindow::onCut() {
+    ui->textEdit->cut();
+}
+
+void MainWindow::onCopy() {
+    ui->textEdit->copy();
+}
+
+void MainWindow::onPaste() {
+    ui->textEdit->paste();
+}
+
+void MainWindow::onSelectAll() {
+    ui->textEdit->selectAll();
+}
+
+void MainWindow::updatePasteState() {
+    const QMimeData* mimeData = QGuiApplication::clipboard()->mimeData();
+    ui->actPaste->setEnabled(ui->textEdit->canPaste() && mimeData != nullptr && mimeData->hasText());
 }
 
 void MainWindow::onAbout() {

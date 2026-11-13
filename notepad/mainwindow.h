@@ -28,6 +28,13 @@ private slots:
     void onOpenFile();
     bool onSaveFile();
     bool onSaveAsFile();
+    void onUndo();
+    void onRedo();
+    void onCut();
+    void onCopy();
+    void onPaste();
+    void onSelectAll();
+    void updatePasteState();
     void onAbout();
     void onFind();
     void onReplace();
